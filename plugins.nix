@@ -4,4 +4,6 @@ with pkgs.vimPlugins; [
   telescope-recent-files
   nvim-lspconfig
   ultisnips
+  kanagawa-nvim
+  nvim-treesitter.withAllGrammars
 ]
