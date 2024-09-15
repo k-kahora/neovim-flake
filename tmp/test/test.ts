@@ -1,1 +1,2 @@
-const foo: number = "bar";
+const foo: number = 30;
+const bar: string = "hello world";

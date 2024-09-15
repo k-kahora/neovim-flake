@@ -6,4 +6,7 @@ with pkgs.vimPlugins; [
   ultisnips
   kanagawa-nvim
   nvim-treesitter.withAllGrammars
+  nvim-treesitter-textobjects
+  which-key-nvim
+  nvim-grey
 ]

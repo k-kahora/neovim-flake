@@ -22,6 +22,7 @@ set inccommand=split
 
 " doing :net will give you proper tab completion for :NetswrSetting
 set ignorecase
+set smartcase
 
 " Sets the color settings to something proper color support all colors your
 " screen can display
@@ -29,3 +30,12 @@ set termguicolors
 
 " color schemes
 colorscheme kanagawa-wave
+
+let g:have_nerd_font = 1
+
+" decrease update time
+set updatetime=250
+" which key pop length
+set timeoutlen=300
+
+
