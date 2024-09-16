@@ -29,7 +29,7 @@ set smartcase
 set termguicolors
 
 " color schemes
-colorscheme kanagawa-wave
+colorscheme onedark_vivid
 
 let g:have_nerd_font = 1
 
@@ -37,5 +37,10 @@ let g:have_nerd_font = 1
 set updatetime=250
 " which key pop length
 set timeoutlen=300
+
+set laststatus=3
+
+" Time of inactivity before a cursor hold
+set updatetime=500
 
 

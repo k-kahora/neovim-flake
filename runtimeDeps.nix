@@ -7,4 +7,6 @@ with pkgs; [
   nodePackages.vscode-langservers-extracted
   nodePackages.typescript
   nodePackages.typescript-language-server
+  ocamlPackages.ocaml-lsp
+  ocamlPackages.ocamlformat
 ]

@@ -1,7 +1,29 @@
 
 local telescope = require("telescope")
 local opt = { noremap = true }
-telescope.setup({})
+telescope.setup({
+  defaults = {
+    -- These three settings are optional, but recommended.
+    prompt_prefix = '',
+    entry_prefix = ' ',
+    selection_caret = ' ',
+
+    -- This is the important part: without this, Telescope windows will look a
+    -- bit odd due to how borders are highlighted.
+    layout_strategy = 'grey',
+    layout_config = {
+     -- The extension supports both "top" and "bottom" for the prompt.
+      prompt_position = 'top',
+
+      -- You can adjust these settings to your liking.
+      width = 0.6,
+      height = 0.5,
+      preview_width = 0.6,
+    },
+  }
+})
+
+telescope.load_extension('grey')
 telescope.load_extension("recent_files")
 vim.api.nvim_set_keymap("n", "<leader><tab>", ":lua require('telescope.builtin').find_files()<CR>", opt)
 vim.api.nvim_set_keymap("n", "<leader>.", ":lua require('telescope').extensions.recent_files.pick()<CR>", opt)
@@ -54,10 +76,10 @@ require("nvim-treesitter.configs").setup({
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "<leader>si", 
-      node_incremental = "<leader>sn",  
-      scope_incremental = "<leader>sc",   
-      node_decremental = "<leader>sp",   
+      init_selection = "<CR>", 
+      node_incremental = "<CR>",  
+      scope_incremental = "<TAB",   
+      node_decremental = "<S-TAB>",   
     },
   },
   textobjects = {
@@ -176,6 +198,118 @@ require("which-key").setup({
 
 
 
+local lspkind = require("lspkind")
+lspkind.init({})
+local cmp = require("cmp")
 
+local bufopts = { noremap = true, silent = true, buffer = bufnr }
+vim.keymap.set("i", "<C-n>", cmp.complete, bufopts)
+
+vim.opt.completeopt = {"menu", "menuone", "fuzzy"}
+
+cmp.setup({
+	-- completion = {
+	-- 	autocomplete = { require('cmp.types').cmp.TriggerEvent.InsertEnter, require('cmp.types').cmp.TriggerEvent.TextChanged }  -- Enable autocomplete on InsertEnter and TextChanged events	
+  -- },
+	-- performance = {
+	-- 	debounse = 120,
+	-- 	throttle = 60,
+	-- },
+  snippet = {
+    expand = function(args) 
+      require("luasnip").lsp_expand(args.body)
+    end,
+  },
+	mapping = {
+		["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+		["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+		["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+		["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+		["<Down>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+		["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+		["<C-l>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+		["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+    ["<C-y>"] = cmp.mapping(
+      cmp.mapping.confirm { 
+        behavior = cmp.ConfirmBehavior.Insert,
+        select = true,
+      },
+      {"i", "c" }
+    ),
+		["<C-e>"] = cmp.mapping({
+			i = cmp.mapping.abort(),
+			c = cmp.mapping.close(),
+		}),
+		["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+	},
+	sources = cmp.config.sources({
+		{ name = "nvim_lsp" },
+    { name = "luasnip" },
+		{ name = "emoji" },
+		{ name = "buffer" },
+	}),
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline("/", {
+	sources = {
+		{ name = "buffer" },
+	},
+})
+
+local ls = require "luasnip"
+local s = ls.snippet
+local t = ls.text_node
+local i = ls.insert_node
+local extras = require("luasnip.extras")
+local fmt = require("luasnip.extras.fmt").fmt -- formats the luasnip
+local c = ls.choice_node -- cycle through choices
+local f = ls.function_node -- expand a lua function
+
+vim.keymap.set({"i", "s"}, "<C-l>", function() 
+  if ls.expand_or_locally_jumpable() then
+    ls.expand_or_jump()
+  end
+end, {silent = true})
+
+vim.keymap.set({"i", "s"}, "<C-h>", function() 
+  if ls.jumpable(-1) then
+    ls.jump(-1)
+  end
+end, {silent = true})
+ls.add_snippets("lua", {
+  s("hello", {
+    t('print("Hello '),
+    i(1),
+    t(' world")')
+  }),
+  s("if", {
+    t('if '),
+    i(1, "true"),
+    t(' then '), 
+    i(2),
+    t(" end")
+  })
+})
+
+
+ls.add_snippets("typescript", {
+  s("ma", {
+    t("match "),
+    i(1, "expression"),
+    t(" with"),
+    t({ "", "  | " }),
+    i(2, "pattern"),
+    t(" -> "),
+    i(3, "result"),
+  })
+})
+-- ls.add_snippets("ocaml", {
+--   s("ma", {
+--     t("match "),
+--     i(1),
+--     t(" with", "| ", i(2), " ->", i(3))
+--   })
+-- })
 
 
