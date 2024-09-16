@@ -266,13 +266,13 @@ local fmt = require("luasnip.extras.fmt").fmt -- formats the luasnip
 local c = ls.choice_node -- cycle through choices
 local f = ls.function_node -- expand a lua function
 
-vim.keymap.set({"i", "s"}, "<C-l>", function() 
+vim.keymap.set({"i", "s"}, "<C-k>", function() 
   if ls.expand_or_locally_jumpable() then
     ls.expand_or_jump()
   end
 end, {silent = true})
 
-vim.keymap.set({"i", "s"}, "<C-h>", function() 
+vim.keymap.set({"i", "s"}, "<C-j>", function() 
   if ls.jumpable(-1) then
     ls.jump(-1)
   end
@@ -293,7 +293,7 @@ ls.add_snippets("lua", {
 })
 
 
-ls.add_snippets("typescript", {
+ls.add_snippets("ocaml", {
   s("ma", {
     t("match "),
     i(1, "expression"),
