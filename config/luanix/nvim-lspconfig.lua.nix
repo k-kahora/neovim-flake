@@ -26,6 +26,13 @@ nvim_lsp.emmet_language_server.setup({
     },
   },
 })
+nvim_lsp.pyright.setup({
+  init_options = {
+    ocamllsp = {
+      path = "${pkgs.pyright}/bin/pyright",
+    },
+  },
+})
 nvim_lsp.ocamllsp.setup({
   init_options = {
     ocamllsp = {
@@ -33,9 +40,9 @@ nvim_lsp.ocamllsp.setup({
     },
   },
 })
-nvim_lsp.css.setup({
+nvim_lsp.cssls.setup({
   init_options = {
-    css = {
+    cssls = {
       path = "${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-css-language-server",
     },
   },

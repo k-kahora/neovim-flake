@@ -31,4 +31,6 @@ with pkgs.vimPlugins; [
   kanagawa-nvim
   # commenting
   vim-commentary
+  # tmux
+  vim-tmux-navigator
 ]
