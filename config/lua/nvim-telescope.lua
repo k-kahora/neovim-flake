@@ -311,5 +311,8 @@ ls.add_snippets("ocaml", {
 --     t(" with", "| ", i(2), " ->", i(3))
 --   })
 -- })
+vim.opt.termguicolors = true
+
+require('nvim-highlight-colors').setup({})
 
 

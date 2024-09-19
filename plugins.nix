@@ -33,4 +33,6 @@ with pkgs.vimPlugins; [
   vim-commentary
   # tmux
   vim-tmux-navigator
+  # css colors
+  nvim-highlight-colors
 ]
